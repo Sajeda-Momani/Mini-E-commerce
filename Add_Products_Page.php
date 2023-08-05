@@ -15,23 +15,11 @@
 <body>
 
     <!-- navbar start -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <img class="image" src="../Mini-E-commerce/img/LOGO.png" alt="logo">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/View_Products_Page.php">My.Station</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php
+    include "./Header.php";
+    ?>
     <!-- navbar end -->
+
     <img class="intro" src="../Mini-E-commerce/img/intro.jpg" alt="">
     <br>
     <br>
@@ -39,57 +27,110 @@
     <h3>Build Your Own Work Station</h3>
     <br>
     <div class="contaner">
-        <form action="View_Products_Page.php" method="post">
+        <form action="../Mini-E-commerce/View_Products_Page.php" method="post" enctype="multipart/form-data">
             <label for="">Product Name</label>
-            <input type="text" name="Product Name" id="Product Name">
+            <input type="text" name="Product Name" id="Product Name" required>
             <br>
             <label for="Product Price">Product Price</label>
-            <input type="text" name="Product Price" id="Product Price">
+            <input type="text" name="Product Price" id="Product Price" required>
             <br>
             <label for="Product Description">Product Description</label>
-            <input type="text" name="Product Description" id="Product Description">
+            <input type="text" name="Product Description" id="Product Description" required>
             <br>
 
             <label for="Product Image">Product Image</label>
-            <input type="file" name="Product Image" id="Product Image">
+            <input type="file" name="Product Image" id="Product Image" required>
             <br>
+            <input class="bt" type="submit" value="Upload">
         </form>
-        <input class="bt" type="submit" value="Upload">
     </div>
+
+    <br>
+    <br>
     <!-- add product end -->
 
-    <!-- Footer Start -->
-    <footer class="bg-light text-center text-white">
-        <!-- Grid container -->
-        <div class="container p-4 pb-0">
-            <!-- Section: Social media -->
-            <section class="mb-4">
-                <!-- Facebook -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #3b5998;" href="https://www.facebook.com/profile.php?id=100041542906428&mibextid=ZbWKwL" role="button"><i class="fab fa-facebook-f"></i></a>
+    <!-- Table Start -->
 
-                <!-- Twitter -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #55acee;" href="https://www.facebook.com/profile.php?id=100041542906428&mibextid=ZbWKwL" role="button"><i class="fab fa-twitter"></i></a>
+    <?php session_start()  ?>
 
-                <!-- Google -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #dd4b39;" href="#!" role="button"><i class="fab fa-google"></i></a>
+    <?php
 
-                <!-- Linkedin -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #0082ca;" href="https://www.linkedin.com/in/sajeda-momani-ba6a77248/" role="button"><i class="fab fa-linkedin-in"></i></a>
-                <!-- Github -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #333333;" href="https://github.com/Sajeda-Momani" role="button"><i class="fab fa-github"></i></a>
-            </section>
-            <!-- Section: Social media -->
-        </div>
-        <!-- Grid container -->
+    // Initialize the session array "products" if not already set
+    if (!isset($_SESSION["products"])) {
+        $_SESSION["products"] = array();
+    }
 
-        <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-            © 2020 Copyright:
-            <a class="text-white">SajedaMomani</a>
-        </div>
-        <!-- Copyright -->
-    </footer>
-    <!-- Footer End -->
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Validate and sanitize the form inputs
+        $productName = isset($_POST["Product_Name"]) ? htmlspecialchars($_POST["Product_Name"]) : "";
+        $productPrice = isset($_POST["Product_Price"]) ? htmlspecialchars($_POST["Product_Price"]) : "";
+        $productDescription = isset($_POST["Product_Description"]) ? htmlspecialchars($_POST["Product_Description"]) : "";
+
+        // Check if the 'Product_Image' key exists in $_FILES
+        // if (isset($_FILES["Product_Image"]) && $_FILES["Product_Image"]["error"] === UPLOAD_ERR_OK) {
+        //     $productImage = $_FILES["Product_Image"]["name"];
+        //     $productImageTmp = $_FILES["Product_Image"]["tmp_name"];
+        //     $uploadDirectory = "uploads/";
+        //     move_uploaded_file($productImageTmp, $uploadDirectory . $productImage);
+        // } else {
+        //     // If no image is uploaded or an error occurred during upload, set a default image
+        //     $productImage = "..\img\LOGO.png";
+        // }
+
+        // Add the product data to the session array "products"
+        $_SESSION["products"][] = array(
+            "Product_Name" => $productName,
+            "Product_Price" => $productPrice,
+            "Product_Description" => $productDescription,
+            // "Product_Image" => $productImage
+        );
+    }
+
+    if (count($_SESSION["products"]) > 0) {
+        echo '
+    <div style="margin: 5%; text-align:center">
+    <table class="table table-striped">
+        <thead class="table-header">
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+         
+            </tr>
+        </thead>
+        <tbody>
+    </div>';
+
+        foreach ($_SESSION["products"] as $product) {
+            echo '<tr>
+            <td>' . $product["Product_Name"] . '</td>
+            <td>' . $product["Product_Price"] . '</td>
+            <td>' . $product["Product_Description"] . '</td>
+        </tr>';
+        }
+
+        echo '</tbody>
+    </table>';
+    } else {
+        echo "<script>alert('No Product Added')</script>";
+    }
+
+    ?>
+
+
+    <!-- Table End -->
+
+    <!-- next page bt -->
+    <div style="text-align: center; display: flex; flex-direction: column; margin: 5%; margin-top: 0px; margin-bottom: 0px; border: 1px solid #364f6b; border-radius: 5px; background-color: #f9f9f9; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); padding: 10px;">
+        <a href="../Mini-E-commerce/View_Products_Page.php" style=" color: #47688d;">View My Station</a>
+    </div>
+    <!-- next page bt -->
+
+    <br>
+    <?php
+    include './Footer.php'
+    ?>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -98,4 +139,3 @@
 </body>
 
 </html>
-

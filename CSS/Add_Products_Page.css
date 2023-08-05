@@ -1,7 +1,8 @@
-nav{
+nav {
     height: 90px;
-    
+
 }
+
 img {
     vertical-align: middle;
     border-style: none;
@@ -9,26 +10,32 @@ img {
     height: 80px;
 }
 
-.navbar-brand:hover {
+.navbar-light .navbar-nav .nav-link:hover{
     text-decoration: underline;
 }
+
 .navbar-light .navbar-nav .nav-link {
-    color: rgba(0,0,0,.5);
+    color: #364f6b;
+    font-weight:bold;
     background-color: #f8f9fa;
     width: 100%;
     padding-left: 2%;
 }
-#navbarSupportedContent{
-margin-left: 1100px;
+
+#navbarSupportedContent {
+    margin-left: 1100px;
 }
+
 body {
     font-family: Arial, sans-serif;
     color: #364f6b;
 
 }
+
 .navbar {
-padding: 0%;
+    padding: 0%;
 }
+
 .intro {
     vertical-align: middle;
     border-style: none;
@@ -37,11 +44,12 @@ padding: 0%;
     height: 660px;
 }
 
-h3{
+h3 {
     text-align: center;
     color: #364f6b;
-   
+
 }
+
 form {
     display: flex;
     flex-direction: column;
@@ -74,7 +82,7 @@ label {
     margin-bottom: 5px;
 }
 
-input[type="file"]{
+input[type="file"] {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -82,6 +90,7 @@ input[type="file"]{
     width: 100%;
     background-color: #fff;
 }
+
 input[type="text"] {
     padding: 8px;
     border: 1px solid #ccc;
@@ -103,15 +112,76 @@ input[type="submit"]:hover {
     background-color: #364f6b;
 }
 
+.product-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+    text-align: center;
+    width: 500px; 
+    height: 500px; 
+}
 
-@media screen and (max-width: 768px) {
+.product-image {
+    width: 300px; 
+    height: 300px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+@media screen and (max-width: 320px) {
     img {
         vertical-align: middle;
         border-style: none;
         padding-right: 0px;
         height: 80px;
     }
-    #navbarSupportedContent{
+
+    #navbarSupportedContent {
         margin-left: 0px;
+    }
+    .product-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-left: 25px;
+            display: inline-block;
+            text-align: center;
+            height: 450px;
+            width:240px ;
+            align-content: center;
         }
+    }
+    
+    .product-image {
+        width: 150px; 
+        height: 200px;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+
+@media screen and (min-width: 321px) and (max-width: 768px) {
+    img {
+        vertical-align: middle;
+        border-style: none;
+        padding-right: 0px;
+        height: 80px;
+    }
+
+    #navbarSupportedContent {
+        margin-left: 0px;
+    }
+    .product-card {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-left: 80px;
+        display: inline-block;
+        text-align: center;
+        height: 400px; 
+        align-content: center;
+    }
+    
+    .product-image {
+        height: 250px;
+        margin-bottom: 10px;
+        align-items: center;
+    }
 }
